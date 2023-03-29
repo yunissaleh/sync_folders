@@ -17,23 +17,41 @@ def getTime():
 
 
 def sync(src, dest):
-    for root, dirs, files in os.walk(src):
+    for root, fldrs, files in os.walk(src):
+        dest_path = root.replace(src, dest)
 
         # Synchronize files
         for file in files:
-            src_path = root + '\\' + file
-            dest_path = root.replace(src, dest)
-            shutil.copy(src_path, dest_path)
-            log(f"[[ {getTime()} ]] File copied: from: {root} to {dest_path}")
+            file_src = os.path.join(root, file)
+            file_dest = os.path.join(dest_path, file)
+            shutil.copy(file_src, file_dest)
+            log(f"[[ {getTime()} ]] File {file} copied to {file_dest}.")
 
         # Synchronize directories
-        for dir in dirs:
+        for fldr in fldrs:
             try:
-                dest_path = root.replace(src, dest) + "\\" + dir
-                os.mkdir(dest_path)
-                log(f"[[ {getTime()} ]] Folder copied: from: {root} to {dest_path}")
+                fldr_dest = os.path.join(dest_path, fldr)
+                os.mkdir(fldr_dest)
+                log(f"[[ {getTime()} ]] Folder {fldr} copied to {fldr_dest}.")
             except OSError:
-                log(f"{getTime()}Cannot create folder when it already exists")
+                pass
+
+    for root, fldrs, files in os.walk(dest):
+        src_path = root.replace(dest, src)
+        for file in files:
+            file_src = os.path.join(src_path, file)
+            file_dest = os.path.join(root, file)
+
+            if not os.path.exists(file_src):
+                os.remove(file_dest)
+                log(f"[[ {getTime()} ]] File deleted: {file} from {file_dest}")
+
+            # Synchronize directories
+        for fldr in fldrs:
+            dest_path = os.path.join(root, fldr)
+            if not os.path.exists(dest_path):
+                shutil.rmtree(dest_path)
+                log(f"[[ {getTime()} ]] Folder deleted: {dest_path}")
 
 
 sync("src", "replica")
