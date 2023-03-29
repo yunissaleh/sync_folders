@@ -46,12 +46,14 @@ def sync(src, dest):
                 os.remove(file_dest)
                 log(f"[[ {getTime()} ]] File deleted: {file} from {file_dest}")
 
-            # Synchronize directories
+
+        # Synchronize directories
         for fldr in fldrs:
-            dest_path = os.path.join(root, fldr)
-            if not os.path.exists(dest_path):
-                shutil.rmtree(dest_path)
-                log(f"[[ {getTime()} ]] Folder deleted: {dest_path}")
+            fldr_path = os.path.join(root, fldr)
+            fldr_src = os.path.join(src_path, fldr)
+            if not os.path.exists(fldr_src):
+                shutil.rmtree(fldr_path)
+                log(f"[[ {getTime()} ]] Folder deleted: {fldr_path}")
 
 
 sync("src", "replica")
