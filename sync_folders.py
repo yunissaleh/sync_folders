@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 
-# log to file and console
+# Log to file and console
 def log(message, file):
     f = open(file, "a")
     f.write(message + "\n")
@@ -19,18 +19,23 @@ def getTime():
 
 
 def sync(src, dest, log_f):
-    # traverse through the source folder
+    # Traverse through the source folder
     for root, fldrs, files in os.walk(src):
         dest_path = root.replace(src, dest)
 
-        # copy files to replica
+        # Copy files to replica
         for file in files:
             file_src = os.path.join(root, file)
             file_dest = os.path.join(dest_path, file)
-            shutil.copy(file_src, file_dest)
-            log(f"[[ {getTime()} ]] File {file} copied to {file_dest}.", log_f)
 
-        # copy directories to replica
+            if os.path.exists(file_dest) and os.path.getmtime(file_dest) >= os.path.getmtime(file_src):
+                # Destination file exists and is up-to-date, do nothing
+                pass
+            else:
+                shutil.copy(file_src, file_dest)
+                log(f"[[ {getTime()} ]] File {file} copied to {file_dest}.", log_f)
+
+        # Copy directories to replica
         for fldr in fldrs:
             try:
                 fldr_dest = os.path.join(dest_path, fldr)
@@ -39,11 +44,11 @@ def sync(src, dest, log_f):
             except OSError:
                 pass
 
-    # traverse through replica folder
+    # Traverse through replica folder
     for root, fldrs, files in os.walk(dest):
         src_path = root.replace(dest, src)
 
-        # delete files no longer present in src folder
+        # Delete files no longer present in src folder
         for file in files:
             file_src = os.path.join(src_path, file)
             file_dest = os.path.join(root, file)
@@ -52,7 +57,7 @@ def sync(src, dest, log_f):
                 os.remove(file_dest)
                 log(f"[[ {getTime()} ]] File {file} deleted from {file_dest}", log_f)
 
-        # delete folders no longer present in src folder
+        # Delete folders no longer present in src folder
         for fldr in fldrs:
             fldr_dest = os.path.join(root, fldr)
             fldr_src = os.path.join(src_path, fldr)
