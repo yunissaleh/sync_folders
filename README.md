@@ -22,6 +22,6 @@ Replace source_directory and destination_directory with the absolute paths of th
 
 For example:
 
-- python sync.py /home/user/Documents /home/user/backup 60 /home/user/sync_log.txt
+- python sync_folders.py /home/user/Documents /home/user/backup 60 /home/user/sync_log.txt
 
 This will sync the Documents directory to the backup directory every 60 seconds and write log messages to sync_log.txt.
