@@ -65,7 +65,7 @@ def sync(src, dest, log_f):
                 shutil.rmtree(fldr_dest)
                 log(f"[[ {getTime()} ]] Folder {fldr} deleted from {fldr_dest}", log_f)
 
-
+# Sync periodically
 def syncInterval(src, dest, interval, log_f):
     while True:
         sync(src, dest, log_f)
