@@ -16,12 +16,12 @@ The log function is used to print messages to the console and write messages to 
 
 To use the script, open a terminal or command prompt and navigate to the directory containing the script. Then run the script with the following command:
 
-python sync_folders.py source_directory destination_directory time_interval log_file_path
+- python sync_folders.py source_directory destination_directory time_interval log_file_path
 
 Replace source_directory and destination_directory with the absolute paths of the directories you want to sync. Replace time_interval with an integer value representing the time in seconds that you want the script to run periodically. Replace log_file_path with the absolute path of the file where you want to write the log messages.
 
 For example:
 
-python sync.py /home/user/Documents /home/user/backup 60 /home/user/sync_log.txt
+- python sync.py /home/user/Documents /home/user/backup 60 /home/user/sync_log.txt
 
 This will sync the Documents directory to the backup directory every 60 seconds and write log messages to sync_log.txt.
