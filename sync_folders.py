@@ -64,6 +64,7 @@ def sync(src, dest, log_f):
             if not os.path.exists(fldr_src):
                 shutil.rmtree(fldr_dest)
                 log(f"[[ {getTime()} ]] Folder {fldr} deleted from {fldr_dest}", log_f)
+                
 
 # Sync periodically
 def syncInterval(src, dest, interval, log_f):
