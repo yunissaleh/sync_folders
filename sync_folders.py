@@ -17,7 +17,7 @@ def log(message, file):
 def getTime():
     return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
-
+# Sync folders
 def sync(src, dest, log_f):
     # Traverse through the source folder
     for root, fldrs, files in os.walk(src):
